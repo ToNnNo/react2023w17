@@ -1,0 +1,13 @@
+$color: #e09a20;
+
+h2 {
+    color: $color;
+}
+
+a {
+    color: $color;
+    
+    &:hover {
+        color: darken($color, 15%);
+    }
+}
