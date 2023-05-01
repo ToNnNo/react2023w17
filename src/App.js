@@ -1,27 +1,24 @@
 import UserAuthenticate from "./component/UserAuthenticate";
 import Main from "./router/Main";
 import Nav from "./router/Nav";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { reload } from "./slice/userSlice";
-import { useCallback, useEffect } from "react";
 import axios from "axios";
+import { getToken } from './service/authenticationService';
 
 function App() {
   const dispatch = useDispatch();
   dispatch( reload() );
-  
-  const { token } = useSelector( state => state.user ); 
 
-  const setHeaders = useCallback( async () => {
-    await axios.interceptors.request.use( (request) => {
-      request.headers.authorization = `Bearer ${token}`;
-      return request;
-    })
-  }, [token])
+  axios.interceptors.request.use( (request) => {
+    request.headers.authorization = `Bearer ${getToken()}`;
+    return request;
+  });  
 
-  useEffect( () => {
-    setHeaders();
-  }, [setHeaders]);
+  axios.interceptors.response.use( (response) => {
+    // console.log(response);
+    return response;
+  });
   
   return (
     <div className="container-fluid">

@@ -12,6 +12,8 @@ import Redux from "../pages/Redux";
 import ShowCounter from "../pages/ShowCounter";
 import Authentication from "../pages/Authentication";
 import Quote from "../pages/Secure/Quote";
+import SecureRouteGuard from "../pages/Secure/Guard/SecureRouteGuard";
+import Product from "../pages/Product";
 
 export default function Main() {
     return (
@@ -27,7 +29,11 @@ export default function Main() {
             <Route path="redux" element={ <Redux /> } />
             <Route path="show/counter" element={ <ShowCounter /> } />
             <Route path="authentication" element={ <Authentication /> } />
-            <Route path="quote" element={ <Quote /> } />
+            <Route path="products" element={ <Product /> } />
+            <Route path="secure" element={ <SecureRouteGuard /> }>
+              <Route index element={ <h2>Dashboard Admin</h2> } />
+              <Route path="quote" element={ <Quote /> } />
+            </Route>
             <Route path="*" element={ <NotFound />} />
         </Routes>
     )

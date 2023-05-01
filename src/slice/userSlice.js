@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const KEY = 'authentication-data';
+import authenticationService from "../service/authenticationService";
 
 export const userSlice = createSlice({
   name: 'user',
@@ -10,20 +9,21 @@ export const userSlice = createSlice({
   },
   reducers: {
     save: (state, action) => {
-      state.token = action.payload.data.token;
-      state.user = action.payload.data.user;
-      localStorage.setItem(KEY, JSON.stringify(action.payload.data));
+      authenticationService.saveToken(action.payload.data.token);
+      state.token = authenticationService.getToken();
+      state.user = authenticationService.getUserData();
     },
     logout: (state) => {
       state.token = null;
       state.user = null;
-      localStorage.removeItem(KEY);
+      authenticationService.removeToken();
     },
     reload: (state) => {
-      const data = JSON.parse(localStorage.getItem(KEY));
-      if(null !== data){
-        state.token = data.token;
-        state.user = data.user;
+      if( authenticationService.hasToken() && authenticationService.tokenIsValid() ) {
+        state.token = authenticationService.getToken();
+        state.user = authenticationService.getUserData();
+      } else {
+        authenticationService.removeToken();
       }
     }
   }

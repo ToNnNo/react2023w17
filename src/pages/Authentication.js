@@ -16,7 +16,7 @@ export default function Authentication() {
       const result = await axios.post('http://localhost:3200/authentication', data);
       // console.log(result.data);
       dispatch( save({ data: result.data }) );
-      navigate('/');
+      navigate('/secure');
     } catch(e) {
       setError('authentication', { type: 'custom', message: e.response.data.message });
     }
